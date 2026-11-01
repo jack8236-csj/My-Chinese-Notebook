@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Chinese Notebook 我的汉语笔记本</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap">
+<style>
+:root{--desk:#e6dbc3;--paper:#fbf6e9;--card:#fffdf6;--ink:#2b2420;--muted:#6f655a;--red:#b3342b;--jade:#2f7d62;--gold:#b8892b;--line:rgba(179,52,43,.3);--rule:rgba(43,36,32,.09);
+--t1:#c0392b;--t2:#2f7d62;--t3:#2563b0;--t4:#8e3fa8;--t5:#6f655a;
+--serif:"Noto Serif SC","Songti SC","STSong",serif;--sans:"Noto Sans SC",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;--kai:"Kaiti SC","STKaiti","KaiTi","Noto Serif SC",serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--desk:#151210;--paper:#211c17;--card:#2a251f;--ink:#efe6d6;--muted:#aaa090;--red:#e2655a;--jade:#5fb594;--gold:#d9b25a;--line:rgba(226,101,90,.35);--rule:rgba(239,230,214,.09);--t1:#ff7b6b;--t2:#5fcf9d;--t3:#6fa8ff;--t4:#c68be0;--t5:#aaa090}}
+:root[data-theme="dark"]{--desk:#151210;--paper:#211c17;--card:#2a251f;--ink:#efe6d6;--muted:#aaa090;--red:#e2655a;--jade:#5fb594;--gold:#d9b25a;--line:rgba(226,101,90,.35);--rule:rgba(239,230,214,.09);--t1:#ff7b6b;--t2:#5fcf9d;--t3:#6fa8ff;--t4:#c68be0;--t5:#aaa090}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--ink);font:17px/1.55 var(--sans);padding:14px 10px 40px}
+.wrap{max-width:920px;margin:0 auto}
+header{display:flex;align-items:center;gap:12px;margin:4px 6px 14px}
+.seal{width:48px;height:48px;background:var(--red);color:#fff;font:700 28px/48px var(--serif);text-align:center;border-radius:4px;transform:rotate(-4deg);flex:none}
+h1{font:700 25px/1.2 var(--sans);margin:0}
+header p{margin:0;color:var(--muted);font-size:15px}
+rt{font:500 .5em var(--sans);color:var(--muted)}
+.t1{color:var(--t1)}.t2{color:var(--t2)}.t3{color:var(--t3)}.t4{color:var(--t4)}.t5{color:var(--t5)}
+.tabs{display:flex;gap:4px;padding-left:10px;flex-wrap:wrap}
+.tab{font:500 16px var(--sans);border:0;padding:8px 16px;border-radius:8px 8px 0 0;background:color-mix(in srgb,var(--paper) 55%,var(--desk));color:var(--muted);cursor:pointer;min-height:44px}
+.tab[aria-selected=true]{background:var(--paper);color:var(--red);font-weight:700}
+.sheet{background:var(--paper);border-radius:6px;padding:20px 16px 28px 40px;position:relative;min-height:60vh}
+.sheet::before{content:"";position:absolute;left:26px;top:0;bottom:0;width:2px;background:var(--line)}
+h2{font:700 21px/1.4 var(--sans);margin:0 0 4px}
+.sub{margin:0 0 14px;color:var(--muted);font-size:15px}
+button,select{font-family:inherit}
+.btn{border:1.5px solid var(--ink);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:6px;font-size:16px;cursor:pointer;min-height:44px}
+.btn:hover:not(:disabled){border-color:var(--red);color:var(--red)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.pri{background:var(--red);border-color:var(--red);color:#fff}
+.btn.pri:hover:not(:disabled){color:#fff;filter:brightness(1.08)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.add{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:start;margin-bottom:14px;background:var(--card);border:1.5px solid var(--rule);border-radius:8px;padding:12px}
+.catf{grid-column:1/3}
+.add>.btn{align-self:end;justify-self:start}
+label{display:block;font-size:14px;font-weight:500;margin-bottom:2px}
+label small{color:var(--muted);font-weight:400}
+input,select{width:100%;font:17px var(--sans);padding:8px 10px;border:1.5px solid var(--ink);border-radius:6px;background:var(--paper);color:var(--ink);min-height:44px}
+input.hzi{font:22px var(--serif)}
+#pv{min-height:1.6em;font-size:17px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pill{border:1.5px solid var(--rule);background:transparent;color:var(--ink);border-radius:99px;padding:3px 12px;font-size:14px;cursor:pointer;min-height:34px}
+.pill[aria-pressed=true]{background:var(--jade);border-color:var(--jade);color:#fff}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.bar .sp{flex:1}
+#msg{font-size:15px;color:var(--jade)}
+#msg.warn,.dirty{color:var(--red)}
+.scroll{overflow-x:auto;background:var(--card);border:1.5px solid var(--ink);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th{font:700 15px var(--sans);text-align:left;padding:8px 12px;background:color-mix(in srgb,var(--red) 12%,var(--card));border-bottom:1.5px solid var(--ink)}
+td{padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.gh td{background:color-mix(in srgb,var(--jade) 14%,var(--card));font-weight:700;padding:6px 12px}
+.hz{font:700 28px var(--serif);white-space:nowrap}
+.py{font-size:19px}
+.act{white-space:nowrap;text-align:right}
+.act select{width:auto;min-height:38px;font-size:14px;padding:4px 6px}
+.ic{border:1px solid var(--rule);background:transparent;color:var(--ink);border-radius:6px;padding:4px 10px;min-height:38px;cursor:pointer;font-size:14px}
+.ic.del:hover{color:var(--red);border-color:var(--red)}
+.empty{padding:26px 16px;text-align:center;color:var(--muted)}
+.empty p{margin:0 0 12px}
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.chip{display:flex;flex-direction:column;align-items:center;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:6px;padding:2px 12px;cursor:pointer;min-height:48px;font:700 20px/1.3 var(--serif)}
+.chip small{font:400 12px var(--sans);color:inherit;opacity:.85}
+.chip[aria-pressed=true]{background:var(--jade);border-color:var(--jade);color:#fff}
+.head{display:flex;align-items:center;gap:6px 16px;flex-wrap:wrap;margin-bottom:10px}
+.head .big{font:700 44px/1.1 var(--serif)}
+.head .p{font-size:22px}
+.head .e{font-size:20px;font-weight:700}
+.tag{font-size:13px;background:var(--card);border:1px solid var(--rule);border-radius:99px;padding:1px 10px;color:var(--muted)}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{border:0;background:var(--card);color:var(--ink);padding:6px 14px;font-size:15px;cursor:pointer;min-height:48px}
+.seg button+button{border-left:1.5px solid var(--ink)}
+.seg button[aria-pressed=true]{background:var(--red);color:#fff}
+.seg button[aria-pressed=true] rt{color:#fff}
+.tip{background:var(--card);border-left:4px solid var(--gold);padding:10px 14px;margin:12px 0;border-radius:0 6px 6px 0}
+details{margin:0 0 14px;background:var(--card);border:1.5px solid var(--rule);border-radius:6px;padding:8px 14px}
+summary{cursor:pointer;font-weight:700;min-height:32px}
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px 14px;margin:8px 0 0;padding:0;list-style:none;font-size:15px}
+.rules b{font:700 22px var(--serif);color:var(--red);margin-right:6px}
+.rules i{font-style:normal;color:var(--muted);margin-right:6px}
+.crow{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.col{display:flex;flex-direction:column;gap:2px}
+.pyl{font-size:16px;min-height:1.6em;text-align:center}
+.box{position:relative;aspect-ratio:1;container-type:inline-size;border:2px solid var(--red);background:
+linear-gradient(var(--line),var(--line)) center/1px 100% no-repeat,
+linear-gradient(var(--line),var(--line)) center/100% 1px no-repeat,
+linear-gradient(45deg,transparent calc(50% - .5px),var(--rule) 0,var(--rule) calc(50% + .5px),transparent 0),
+linear-gradient(-45deg,transparent calc(50% - .5px),var(--rule) 0,var(--rule) calc(50% + .5px),transparent 0),var(--card)}
+.model{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 78cqw/1 var(--kai);pointer-events:none;user-select:none}
+.cell .model{opacity:.2}
+canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.cap{font-size:13px;color:var(--muted);text-align:center}
+.so{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin:0 0 10px}
+.so svg{position:absolute;inset:0;width:100%;height:100%}
+.so path{fill:none;stroke:var(--ink);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.so .cur{stroke:var(--red)}.so .nx{opacity:.13}
+.sol{font-size:15px;margin:6px 0 6px}
+#area.m-copy .cell .model,#area.m-recall .cell .model{display:none}
+#area.m-recall:not(.peek) .ref .model{visibility:hidden}
+@media (max-width:640px){.add{grid-template-columns:1fr}.catf{grid-column:auto}.sheet{padding:16px 12px 22px 34px}h1{font-size:21px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="seal" aria-hidden="true">汉</div><div><h1>My Chinese Notebook</h1><p>Collect words, sort them into groups, then practise writing.</p></div></header>
+
+<div class="tabs" role="tablist">
+<button class="tab" role="tab" id="t1" aria-selected="true" aria-controls="p1">Page 1 · My Words <ruby>词汇<rt>cí huì</rt></ruby></button>
+<button class="tab" role="tab" id="t2" aria-selected="false" aria-controls="p2">Page 2 · Writing Practice <ruby>书写<rt>shū xiě</rt></ruby></button>
+</div>
+
+<main class="sheet">
+<section id="p1" role="tabpanel" aria-labelledby="t1">
+<h2>My Words <ruby>汉字词汇表<rt>hàn zì cí huì biǎo</rt></ruby></h2>
+<p class="sub">Add a word, choose a group for it, and your list sorts itself.</p>
+<div class="add">
+<div><label for="hz">1. Chinese <ruby>汉字<rt>hàn zì</rt></ruby></label><input id="hz" class="hzi" lang="zh" placeholder="e.g. 上" autocomplete="off"></div>
+<div><label for="py">2. Pinyin <small>type tone numbers: shang4</small></label><input id="py" placeholder="shàng" autocomplete="off" autocapitalize="off"><div id="pv" aria-live="polite"></div></div>
+<div><label for="en">3. English meaning</label><input id="en" lang="en" placeholder="up, above" autocomplete="off"></div>
+<div class="catf"><label for="cat">4. Group <ruby>分类<rt>fēn lèi</rt></ruby> <small>e.g. directions, countries, food</small></label><input id="cat" list="cl" placeholder="directions" autocomplete="off"><datalist id="cl"></datalist><div class="pills" id="catq" aria-label="Your groups"></div></div>
+<button class="btn pri" id="add">Add word</button>
+</div>
+<div class="bar">
+<button class="btn" id="undo">Undo</button>
+<button class="btn" id="redo">Redo</button>
+<button class="btn pri" id="save">Save</button>
+<span id="msg" role="status"></span><span class="sp"></span>
+<span id="count" style="color:var(--muted);font-size:15px"></span>
+</div>
+<div class="pills" id="fil" role="group" aria-label="Show group" style="margin:0 0 10px"></div>
+<div class="scroll"><table>
+<thead><tr><th>Chinese <ruby>汉字<rt>hàn zì</rt></ruby></th><th>Pinyin <ruby>拼音<rt>pīn yīn</rt></ruby></th><th>English</th><th></th></tr></thead>
+<tbody id="rows"></tbody>
+</table>
+<div class="empty" id="empty"><p>No words yet. Add your first word above, or try the examples.</p><button class="btn" id="demo">Add example words</button></div>
+</div>
+</section>
+
+<section id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+<h2>Writing Practice <ruby>书写练习<rt>shū xiě liàn xí</rt></ruby></h2>
+<p class="sub">Practise the words from Page 1, one character per square.</p>
+<div id="noWords" class="empty" hidden><p>Add some words on Page 1 first, then come back here.</p><button class="btn" id="goP1">Go to Page 1</button></div>
+<div id="work">
+<div class="pills" id="pfil" role="group" aria-label="Practise group"></div>
+<div class="pick" id="pick" role="group" aria-label="Choose a word"></div>
+<div class="head"><span class="big" id="hBig" lang="zh"></span><span class="p" id="hPy"></span><span class="e" id="hEn"></span><span class="tag" id="hCat"></span></div>
+<div class="bar"><button class="btn" id="hSay">🔊 Listen</button><button class="btn" id="hSlow">🐢 Listen slowly</button><span class="sp"></span><button class="btn" id="prev">‹ Previous word</button><button class="btn" id="next">Next word ›</button></div>
+<details open><summary>How to practise</summary>
+<ol style="margin:6px 0 8px;padding-left:20px"><li>Listen, then say the word out loud.</li><li>Do <b>Trace</b>, then <b>Copy</b>, then <b>From memory</b>.</li><li>One character fills one square. Keep it centred and write the strokes in the right order.</li></ol>
+<b>Stroke order rules</b>
+<ul class="rules">
+<li><b>十</b><i>shí</i>Horizontal before vertical</li><li><b>人</b><i>rén</i>Left-falling before right-falling</li><li><b>三</b><i>sān</i>Top to bottom</li><li><b>川</b><i>chuān</i>Left to right</li>
+<li><b>小</b><i>xiǎo</i>Middle before the sides</li><li><b>月</b><i>yuè</i>Outside before inside</li><li><b>国</b><i>guó</i>Walls first, inside next, close the box last</li>
+</ul>
+<div id="ex" style="margin-top:12px"></div>
+<p style="margin:10px 0 0;font-size:15px"><b>Tone colours:</b> <span class="t1">1st high flat</span> · <span class="t2">2nd rising</span> · <span class="t3">3rd dipping</span> · <span class="t4">4th falling</span> · <span class="t5">neutral</span></p>
+</details>
+<div class="bar">
+<div class="seg" role="group" aria-label="Practice mode">
+<button data-m="trace" aria-pressed="true">Trace <ruby>描红<rt>miáo hóng</rt></ruby></button><button data-m="copy" aria-pressed="false">Copy <ruby>临写<rt>lín xiě</rt></ruby></button><button data-m="recall" aria-pressed="false">From memory <ruby>默写<rt>mò xiě</rt></ruby></button>
+</div>
+<button class="btn" id="cUndo">Undo stroke</button>
+<button class="btn" id="cClear">Erase all</button>
+<button class="btn" id="peek" hidden>Show answer</button>
+</div>
+<div class="tip" id="tip"></div>
+<div id="area" class="m-trace"></div>
+</div>
+</section>
+</main>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),KEY='cnNotebook.v1';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let words=[],hist=[],hi=0,dirty=false,sel=null,mode='trace',fil='all',pfil='all',last='';
+try{const r=localStorage.getItem(KEY);if(r)words=JSON.parse(r).words||[]}catch(e){}
+hist=[JSON.stringify(words)];
+const cat=w=>w.cat||'';
+const cats=()=>[...new Set(words.map(cat).filter(Boolean))];
+const OTHER='Other';
+
+/* pinyin: tone numbers -> marks, tone colours */
+function tone(s){const M={a:'āáǎà',e:'ēéěè',o:'ōóǒò',i:'īíǐì',u:'ūúǔù',ü:'ǖǘǚǜ'};
+return s.replace(/([a-zü:]+)([1-5])/gi,(m,w,t)=>{w=w.toLowerCase().replace(/u:|v/g,'ü');t=+t;if(t===5)return w;
+const k=/[ae]/.test(w)?w.match(/[ae]/)[0]:w.includes('ou')?'o':[...w].reverse().find(c=>M[c]);
+return k?w.replace(k,M[k][t-1]):m})}
+const TM={1:'āēīōūǖ',2:'áéíóúǘ',3:'ǎěǐǒǔǚ',4:'àèìòùǜ'};
+const toneOf=s=>[1,2,3,4].find(t=>[...s].some(c=>TM[t].includes(c)))||5;
+const syls=p=>p.split(/\s+/).filter(Boolean);
+const pyH=p=>syls(p).map(s=>`<span class="t${toneOf(s)}">${esc(s)}</span>`).join(' ');
+function hzH(h,p){const s=syls(p),c=[...h];return s.length===c.length?c.map((x,i)=>`<span class="t${toneOf(s[i])}">${esc(x)}</span>`).join(''):esc(h)}
+
+function say(t,rate){if(!('speechSynthesis' in window))return;speechSynthesis.cancel();
+const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=rate||.8;
+const v=speechSynthesis.getVoices().filter(x=>/^zh/i.test(x.lang));
+u.voice=v.find(x=>/Ting-?Ting/i.test(x.name))||v.find(x=>/female/i.test(x.name))||v.find(x=>/google/i.test(x.name))||v[0]||null;
+setTimeout(()=>speechSynthesis.speak(u),80)}
+
+function msg(t,warn){const m=$('#msg');m.textContent=t;m.className=warn?'warn':''}
+function commit(){hist=hist.slice(0,hi+1);hist.push(JSON.stringify(words));hi=hist.length-1;dirty=true;render()}
+function undo(){if(hi>0){hi--;words=JSON.parse(hist[hi]);dirty=true;msg('Undone');render()}}
+function redo(){if(hi<hist.length-1){hi++;words=JSON.parse(hist[hi]);dirty=true;msg('Redone');render()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({words}));dirty=false;render();msg('Saved ✓ It will be here next time on this device.')}
+catch(e){msg('Could not save: this browser blocks storage.',true)}}
+addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
+
+function chips(el,cur,count,onAttr){const cs=cats(),hasO=words.some(w=>!cat(w));
+const items=[['all','All',words.length],...cs.map(c=>[c,c,words.filter(w=>cat(w)===c).length])];
+if(hasO)items.push(['',OTHER,words.filter(w=>!cat(w)).length]);
+el.innerHTML=items.map(([v,l,n])=>`<button class="pill" data-f="${esc(v)}" aria-pressed="${v===cur}">${esc(l)} (${n})</button>`).join('')}
+
+function render(){
+const cs=cats(),groups=[...cs,...(words.some(w=>!cat(w))?['']:[])];
+$('#cl').innerHTML=cs.map(c=>`<option value="${esc(c)}">`).join('');
+$('#catq').innerHTML=cs.map(c=>`<button class="pill" data-q="${esc(c)}" aria-pressed="${$('#cat').value.trim()===c}">${esc(c)}</button>`).join('');
+if(fil!=='all'&&!groups.includes(fil))fil='all';
+chips($('#fil'),fil);$('#fil').hidden=!words.length;
+const show=fil==='all'?groups:[fil];
+$('#rows').innerHTML=show.map(g=>{const ws=words.filter(w=>cat(w)===g);
+return `<tr class="gh"><td colspan="4">${esc(g||OTHER)} · ${ws.length}</td></tr>`+ws.map(w=>`<tr><td class="hz" lang="zh">${hzH(w.hz,w.py)}</td><td class="py">${pyH(w.py)}</td><td>${esc(w.en)}</td><td class="act"><button class="ic" data-say="${w.id}" aria-label="Listen to ${esc(w.hz)}">🔊 Listen</button> <select data-mv="${w.id}" aria-label="Move ${esc(w.hz)} to another group"><option value="" selected disabled>Move to…</option>${cs.filter(c=>c!==g).map(c=>`<option>${esc(c)}</option>`).join('')}${g?'<option value="__o">'+OTHER+'</option>':''}</select> <button class="ic del" data-del="${w.id}" aria-label="Delete ${esc(w.hz)}">Delete</button></td></tr>`).join('')}).join('');
+$('#empty').hidden=words.length>0;
+$('#count').textContent=words.length?`${words.length} word${words.length>1?'s':''} · ${cs.length} group${cs.length===1?'':'s'}`:'';
+$('#undo').disabled=hi<=0;$('#redo').disabled=hi>=hist.length-1;
+$('#save').textContent=dirty?'Save (unsaved changes)':'Save';
+if(!$('#p2').hidden)renderPractice()}
+
+function addWord(){
+const hz=$('#hz').value.trim();
+if(!/\p{Script=Han}/u.test(hz)){msg('Please type the Chinese characters first.',true);$('#hz').focus();return}
+last=$('#cat').value.trim();
+words.push({id:Date.now()+Math.random().toString(36).slice(2,5),hz,py:tone($('#py').value.trim()),en:$('#en').value.trim(),cat:last});
+['#hz','#py','#en'].forEach(s=>$(s).value='');$('#pv').innerHTML='';commit();msg('Added: '+hz+(last?' → '+last:''));$('#hz').focus()}
+
+$('#add').onclick=addWord;
+['#hz','#py','#en','#cat'].forEach(s=>$(s).addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing)addWord()}));
+$('#py').oninput=e=>{$('#pv').innerHTML=pyH(tone(e.target.value))};
+$('#cat').oninput=()=>render();
+$('#catq').onclick=e=>{const b=e.target.closest('[data-q]');if(b){$('#cat').value=b.dataset.q;render();$('#hz').focus()}};
+$('#fil').onclick=e=>{const b=e.target.closest('[data-f]');if(b){fil=b.dataset.f;render()}};
+$('#undo').onclick=undo;$('#redo').onclick=redo;$('#save').onclick=save;
+$('#demo').onclick=()=>{[['上','shàng','up, above','directions'],['下','xià','down, below','directions'],['左','zuǒ','left','directions'],['右','yòu','right','directions'],['前','qián','front, before','directions'],['后','hòu','back, after','directions'],
+['马来西亚','mǎ lái xī yà','Malaysia','countries'],['新加坡','xīn jiā pō','Singapore','countries'],['印尼','yìn ní','Indonesia','countries']].forEach(([hz,py,en,c],i)=>words.push({id:'d'+Date.now()+i,hz,py,en,cat:c}));commit()};
+$('#rows').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+if(b.dataset.say)say(words.find(w=>w.id===b.dataset.say).hz);
+if(b.dataset.del){words=words.filter(w=>w.id!==b.dataset.del);commit();msg('Deleted. Tap Undo to bring it back.')}};
+$('#rows').onchange=e=>{const s=e.target.closest('[data-mv]');if(!s)return;const w=words.find(x=>x.id===s.dataset.mv);
+w.cat=s.value==='__o'?'':s.value;commit();msg(`Moved ${w.hz} to ${w.cat||OTHER}`)};
+
+/* pages */
+function showPage(n){[1,2].forEach(i=>{$('#t'+i).setAttribute('aria-selected',i===n);$('#p'+i).hidden=i!==n});if(n===2){renderPractice();openWord()}}
+$('#t1').onclick=()=>showPage(1);$('#t2').onclick=()=>showPage(2);$('#goP1').onclick=()=>showPage(1);
+
+/* writing practice */
+const TIPS={trace:'Trace the pale character. Follow the stroke order and ask yourself: where does each stroke start, and which way does it go?',
+copy:'Copy the model on the left into the empty squares. Use the cross lines to place each part of the character.',
+recall:'Read the pinyin and the English meaning, picture the character, then write it. Tap Show answer to check yourself.'};
+const order=[],pw=()=>words.filter(w=>pfil==='all'||cat(w)===pfil);
+function draw(cv){const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;
+if(cv.width!==Math.round(r.width*d)){cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d)}
+const c=cv.getContext('2d');c.clearRect(0,0,cv.width,cv.height);
+c.lineCap=c.lineJoin='round';c.lineWidth=cv.width*.05;c.strokeStyle=c.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim()||'#222';
+cv._s.forEach(s=>{c.beginPath();s.forEach(([x,y],i)=>i?c.lineTo(x*cv.width,y*cv.height):c.moveTo(x*cv.width,y*cv.height));
+if(s.length===1){c.arc(s[0][0]*cv.width,s[0][1]*cv.height,c.lineWidth/2,0,7);c.fill()}else c.stroke()})}
+function setup(cv){cv._s=[];let cur=null;
+const pt=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height]};
+cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);cur=[pt(e)];cv._s.push(cur);order.push(cv);draw(cv)};
+cv.onpointermove=e=>{if(cur){cur.push(pt(e));draw(cv)}};
+cv.onpointerup=cv.onpointercancel=()=>{cur=null};
+new ResizeObserver(()=>draw(cv)).observe(cv)}
+
+/* stroke order demos: p = paths (100x100), n = stroke names */
+const STROKES={'上':{p:['M43 12 L43 80','M45 50 Q58 48 70 46','M10 82 Q50 82 90 80'],n:['vertical 竖 shù','short horizontal 横 héng','long horizontal 横 héng']}};
+function strokeHTML(c){const d=STROKES[c];if(!d)return'';const k=d.p.length;
+const fr=i=>`<div class="col"><div class="box"><svg viewBox="0 0 100 100" aria-hidden="true">${d.p.map((p,j)=>`<path d="${p}" class="${j<i?'':j===i?'cur':'nx'}"/>`).join('')}</svg></div><div class="cap">${i<k?(i+1)+'. '+d.n[i]:'Done ✓'}</div></div>`;
+return `<div class="sol"><b>Stroke order <ruby>笔顺<rt>bǐ shùn</rt></ruby> of <span lang="zh">${c}</span>:</b> ${k} strokes. <span class="t1">Red</span> is the stroke to write now; pale strokes come later.</div><div class="so">${d.p.map((_,i)=>fr(i)).join('')+fr(k)}</div>`}
+$('#ex').innerHTML=strokeHTML('上');
+function renderPractice(){
+const none=!words.length;$('#noWords').hidden=!none;$('#work').hidden=none;if(none)return;
+if(pfil!=='all'&&!words.some(w=>cat(w)===pfil))pfil='all';
+chips($('#pfil'),pfil);
+const list=pw();if(!list.some(w=>w.id===sel))sel=list[0].id;
+$('#pick').innerHTML=list.map(w=>`<button class="chip" lang="zh" data-id="${w.id}" aria-pressed="${w.id===sel}">${esc(w.hz)}<small>${esc(w.en)}</small></button>`).join('')}
+function openWord(){
+const w=words.find(x=>x.id===sel);if(!w)return;
+$('#hBig').innerHTML=hzH(w.hz,w.py);$('#hPy').innerHTML=pyH(w.py);$('#hEn').textContent=w.en;$('#hCat').textContent=cat(w)||OTHER;
+const ch=[...w.hz].filter(c=>/\p{Script=Han}/u.test(c)),sy=syls(w.py),map=sy.length===ch.length;order.length=0;
+$('#area').innerHTML=ch.map((c,i)=>strokeHTML(c)+`<div class="crow"><div class="col"><div class="pyl">${map?pyH(sy[i]):''}</div><div class="box ref"><div class="model">${c}</div></div><div class="cap">Model</div></div>`+
+[1,2,3].map(n=>`<div class="col"><div class="pyl"></div><div class="box cell"><div class="model">${c}</div><canvas aria-label="Practice square ${n} for ${c}"></canvas></div><div class="cap">Practice ${n}</div></div>`).join('')+'</div>').join('');
+document.querySelectorAll('#area canvas').forEach(setup);setMode(mode)}
+function setMode(m){mode=m;$('#area').className='m-'+m;
+document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+$('#tip').textContent=TIPS[m];$('#peek').hidden=m!=='recall';$('#peek').textContent='Show answer'}
+function step(d){const l=pw(),i=l.findIndex(w=>w.id===sel);sel=l[(i+d+l.length)%l.length].id;renderPractice();openWord()}
+$('#pfil').onclick=e=>{const b=e.target.closest('[data-f]');if(b){pfil=b.dataset.f;renderPractice();openWord()}};
+$('#pick').onclick=e=>{const b=e.target.closest('.chip');if(b){sel=b.dataset.id;renderPractice();openWord()}};
+$('#prev').onclick=()=>step(-1);$('#next').onclick=()=>step(1);
+document.querySelector('.seg').onclick=e=>{const b=e.target.closest('button');if(b)setMode(b.dataset.m)};
+$('#peek').onclick=()=>{const p=$('#area').classList.toggle('peek');$('#peek').textContent=p?'Hide answer':'Show answer'};
+$('#cUndo').onclick=()=>{const cv=order.pop();if(cv){cv._s.pop();draw(cv)}};
+$('#cClear').onclick=()=>{document.querySelectorAll('#area canvas').forEach(cv=>{cv._s.length=0;draw(cv)});order.length=0};
+$('#hSay').onclick=()=>{const w=words.find(x=>x.id===sel);if(w)say(w.hz,.85)};
+$('#hSlow').onclick=()=>{const w=words.find(x=>x.id===sel);if(w)say(w.hz,.5)};
+render();
+</script>
+</body>
+</html>
